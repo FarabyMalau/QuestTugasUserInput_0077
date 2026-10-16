@@ -67,9 +67,12 @@ import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
 
 @Composable
 fun FormBiodataScreen() {
+    val context = LocalContext.current
     val formLengkap = namaDepan.isNotBlank() &&
             namaBelakang.isNotBlank() &&
             email.isNotBlank() &&
@@ -319,6 +322,13 @@ fun HeaderGambar(modifier: Modifier = Modifier) {
             )
         }
     }
+    onClick = {
+        Toast.makeText(
+            context,
+            context.getString(R.string.pesan_berhasil, namaDepan),
+            Toast.LENGTH_SHORT
+        ).show()
+    },
 }
 
 @Composable
