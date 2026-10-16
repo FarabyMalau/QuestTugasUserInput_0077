@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="tinggi_header">260dp</dimen>
+    <dimen name="jarak_atas_form">180dp</dimen>
+    <dimen name="jarak_bawah_form">48dp</dimen>
+    <dimen name="padding_form">24dp</dimen>
+    <dimen name="radius_form">32dp</dimen>
+    <dimen name="radius_field">20dp</dimen>
+    <dimen name="elevasi_form">12dp</dimen>
+    <dimen name="jarak_sedang">16dp</dimen>
+    <dimen name="ukuran_dot">8dp</dimen>
+    <dimen name="jarak_dot">6dp</dimen>
+    <dimen name="tinggi_tombol">52dp</dimen>
+</resources>
