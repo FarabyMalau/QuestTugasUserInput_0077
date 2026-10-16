@@ -49,6 +49,14 @@ import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.remember
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberDatePickerState
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 @Composable
 fun FormBiodataScreen() {
@@ -67,6 +75,36 @@ fun FormBiodataScreen() {
             containerColor = colorResource(R.color.putih)
         ) { innerPadding ->
             HeaderGambar(modifier = Modifier.padding(innerPadding))
+        }
+        if (tampilDatePicker) {
+            val datePickerState = rememberDatePickerState()
+            val formatTanggal = SimpleDateFormat(
+                stringResource(R.string.format_tanggal),
+                Locale.getDefault()
+            ).apply {
+                timeZone = TimeZone.getTimeZone(stringResource(R.string.zona_waktu))
+            }
+
+            DatePickerDialog(
+                onDismissRequest = { tampilDatePicker = false },
+                confirmButton = {
+                    TextButton(onClick = {
+                        datePickerState.selectedDateMillis?.let {
+                            tglLahir = formatTanggal.format(Date(it))
+                        }
+                        tampilDatePicker = false
+                    }) {
+                        Text(stringResource(R.string.tombol_ok))
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { tampilDatePicker = false }) {
+                        Text(stringResource(R.string.tombol_batal))
+                    }
+                }
+            ) {
+                DatePicker(state = datePickerState)
+            }
         }
 
         Box(
