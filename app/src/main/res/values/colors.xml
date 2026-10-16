@@ -7,4 +7,12 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="putih">#FFFFFFFF</color>
+    <color name="ungu_judul">#FF6A3AB8</color>
+    <color name="abu_subjudul">#FF757575</color>
+    <color name="warna_dot_aktif">#FF2962FF</color>
+    <color name="warna_dot_nonaktif">#FF9E9E9E</color>
+    <color name="warna_tombol_aktif">#FF6A3AB8</color>
+    <color name="warna_tombol_nonaktif">#FFE0E0E0</color>
+    <color name="warna_teks_tombol">#FFFFFFFF</color>
 </resources>
