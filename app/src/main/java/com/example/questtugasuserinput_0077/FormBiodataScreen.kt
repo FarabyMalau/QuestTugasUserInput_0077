@@ -49,6 +49,7 @@ import androidx.compose.runtime.setValue
 fun FormBiodataScreen() {
     var namaDepan by rememberSaveable { mutableStateOf("") }
     var namaBelakang by rememberSaveable { mutableStateOf("") }
+    var email by rememberSaveable { mutableStateOf("") }
     val bentukForm = RoundedCornerShape(
         topStart = dimensionResource(R.dimen.radius_form),
         topEnd = dimensionResource(R.dimen.radius_form)
@@ -108,6 +109,13 @@ fun FormBiodataScreen() {
                         onValueChange = { namaBelakang = it },
                         labelRes = R.string.hint_nama_belakang,
                         modifier = Modifier.weight(1f)
+                    )
+                    FieldBiodata(
+                        value = email,
+                        onValueChange = { email = it },
+                        labelRes = R.string.hint_email,
+                        keyboardType = KeyboardType.Email,
+                        modifier = Modifier.fillMaxWidth()
                     )
                 }
             }
