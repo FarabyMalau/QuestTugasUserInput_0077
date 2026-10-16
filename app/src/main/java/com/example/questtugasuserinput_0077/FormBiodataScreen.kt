@@ -2,6 +2,7 @@
 
 package com.example.questtugasuserinput_0077
 
+import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,78 +20,80 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.runtime.remember
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDialog
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.questtugasuserinput_0077.ui.theme.QuestTugasUserInput_0077Theme
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExposedDropdownMenuAnchorType
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.ui.res.stringArrayResource
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxDefaults
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import android.widget.Toast
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.questtugasuserinput_0077.ui.theme.QuestTugasUserInput_0077Theme
 
 @Composable
 fun FormBiodataScreen() {
     val context = LocalContext.current
+
+    var namaDepan by rememberSaveable { mutableStateOf("") }
+    var namaBelakang by rememberSaveable { mutableStateOf("") }
+    var email by rememberSaveable { mutableStateOf("") }
+    var tglLahir by rememberSaveable { mutableStateOf("") }
+    var tampilDatePicker by remember { mutableStateOf(false) }
+    var experience by rememberSaveable { mutableStateOf("") }
+    var menuTerbuka by remember { mutableStateOf(false) }
+    val skillTerpilih = remember { mutableStateListOf<String>() }
+
+    val daftarExperience = stringArrayResource(R.array.daftar_experience)
+    val daftarSkill = stringArrayResource(R.array.daftar_skill)
+    val pesanBerhasil = stringResource(R.string.pesan_berhasil, namaDepan)
+
     val formLengkap = namaDepan.isNotBlank() &&
             namaBelakang.isNotBlank() &&
             email.isNotBlank() &&
             tglLahir.isNotBlank() &&
             experience.isNotBlank() &&
             skillTerpilih.isNotEmpty()
-    val skillTerpilih = remember { mutableStateListOf<String>() }
-    val daftarSkill = stringArrayResource(R.array.daftar_skill)
-    var experience by rememberSaveable { mutableStateOf("") }
-    var menuTerbuka by remember { mutableStateOf(false) }
-    val daftarExperience = stringArrayResource(R.array.daftar_experience)
-    var namaDepan by rememberSaveable { mutableStateOf("") }
-    var namaBelakang by rememberSaveable { mutableStateOf("") }
-    var email by rememberSaveable { mutableStateOf("") }
-    var tglLahir by rememberSaveable { mutableStateOf("") }
-    var tampilDatePicker by remember { mutableStateOf(false) }
+
     val bentukForm = RoundedCornerShape(
         topStart = dimensionResource(R.dimen.radius_form),
         topEnd = dimensionResource(R.dimen.radius_form)
@@ -101,36 +104,6 @@ fun FormBiodataScreen() {
             containerColor = colorResource(R.color.putih)
         ) { innerPadding ->
             HeaderGambar(modifier = Modifier.padding(innerPadding))
-        }
-        if (tampilDatePicker) {
-            val datePickerState = rememberDatePickerState()
-            val formatTanggal = SimpleDateFormat(
-                stringResource(R.string.format_tanggal),
-                Locale.getDefault()
-            ).apply {
-                timeZone = TimeZone.getTimeZone(stringResource(R.string.zona_waktu))
-            }
-
-            DatePickerDialog(
-                onDismissRequest = { tampilDatePicker = false },
-                confirmButton = {
-                    TextButton(onClick = {
-                        datePickerState.selectedDateMillis?.let {
-                            tglLahir = formatTanggal.format(Date(it))
-                        }
-                        tampilDatePicker = false
-                    }) {
-                        Text(stringResource(R.string.tombol_ok))
-                    }
-                },
-                dismissButton = {
-                    TextButton(onClick = { tampilDatePicker = false }) {
-                        Text(stringResource(R.string.tombol_batal))
-                    }
-                }
-            ) {
-                DatePicker(state = datePickerState)
-            }
         }
 
         Box(
@@ -165,6 +138,7 @@ fun FormBiodataScreen() {
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
                 )
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.jarak_sedang))
@@ -181,91 +155,150 @@ fun FormBiodataScreen() {
                         labelRes = R.string.hint_nama_belakang,
                         modifier = Modifier.weight(1f)
                     )
-                    FieldBiodata(
-                        value = email,
-                        onValueChange = { email = it },
-                        labelRes = R.string.hint_email,
-                        keyboardType = KeyboardType.Email,
-                        modifier = Modifier.fillMaxWidth()
+                }
+
+                FieldBiodata(
+                    value = email,
+                    onValueChange = { email = it },
+                    labelRes = R.string.hint_email,
+                    keyboardType = KeyboardType.Email,
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.jarak_sedang))
+                ) {
+                    OutlinedTextField(
+                        value = tglLahir,
+                        onValueChange = {},
+                        readOnly = true,
+                        singleLine = true,
+                        label = { Text(stringResource(R.string.hint_tgl_lahir)) },
+                        trailingIcon = {
+                            IconButton(onClick = { tampilDatePicker = true }) {
+                                Icon(
+                                    painter = painterResource(R.drawable.ic_kalender),
+                                    contentDescription = stringResource(R.string.deskripsi_ikon_kalender)
+                                )
+                            }
+                        },
+                        shape = RoundedCornerShape(dimensionResource(R.dimen.radius_field)),
+                        modifier = Modifier.weight(1f)
                     )
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.jarak_sedang))
+
+                    ExposedDropdownMenuBox(
+                        expanded = menuTerbuka,
+                        onExpandedChange = { menuTerbuka = it },
+                        modifier = Modifier.weight(1f)
                     ) {
                         OutlinedTextField(
-                            value = tglLahir,
+                            value = experience,
                             onValueChange = {},
                             readOnly = true,
                             singleLine = true,
-                            label = { Text(stringResource(R.string.hint_tgl_lahir)) },
+                            label = { Text(stringResource(R.string.hint_experience)) },
                             trailingIcon = {
-                                IconButton(onClick = { tampilDatePicker = true }) {
-                                    Icon(
-                                        imageVector = Icons.Default.DateRange,
-                                        contentDescription = stringResource(R.string.deskripsi_ikon_kalender)
-                                    )
-                                }
+                                ExposedDropdownMenuDefaults.TrailingIcon(expanded = menuTerbuka)
                             },
                             shape = RoundedCornerShape(dimensionResource(R.dimen.radius_field)),
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
                         )
-                        ExposedDropdownMenuBox(
+                        ExposedDropdownMenu(
                             expanded = menuTerbuka,
-                            onExpandedChange = { menuTerbuka = it },
-                            modifier = Modifier.weight(1f)
+                            onDismissRequest = { menuTerbuka = false }
                         ) {
-                            OutlinedTextField(
-                                value = experience,
-                                onValueChange = {},
-                                readOnly = true,
-                                singleLine = true,
-                                label = { Text(stringResource(R.string.hint_experience)) },
-                                trailingIcon = {
-                                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = menuTerbuka)
-                                },
-                                shape = RoundedCornerShape(dimensionResource(R.dimen.radius_field)),
-                                modifier = Modifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
-                            )
-                            ExposedDropdownMenu(
-                                expanded = menuTerbuka,
-                                onDismissRequest = { menuTerbuka = false }
-                            ) {
-                                daftarExperience.forEach { pilihan ->
-                                    DropdownMenuItem(
-                                        text = { Text(pilihan) },
-                                        onClick = {
-                                            experience = pilihan
-                                            menuTerbuka = false
-                                        }
-                                    )
-                                }
-                                Text(
-                                    text = stringResource(R.string.label_skill),
-                                    style = MaterialTheme.typography.titleSmall,
-                                    fontWeight = FontWeight.Bold
-                                )                            }
-                        }
-                    }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        daftarSkill.forEach { skill ->
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Checkbox(
-                                    checked = skill in skillTerpilih,
-                                    onCheckedChange = { dicentang ->
-                                        if (dicentang) skillTerpilih.add(skill) else skillTerpilih.remove(skill)
-                                    },
-                                    colors = CheckboxDefaults.colors(
-                                        checkedColor = colorResource(R.color.ungu_judul)
-                                    )
+                            daftarExperience.forEach { pilihan ->
+                                DropdownMenuItem(
+                                    text = { Text(pilihan) },
+                                    onClick = {
+                                        experience = pilihan
+                                        menuTerbuka = false
+                                    }
                                 )
-                                Text(text = skill, style = MaterialTheme.typography.bodySmall)
                             }
                         }
                     }
                 }
+
+                Text(
+                    text = stringResource(R.string.label_skill),
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    daftarSkill.forEach { skill ->
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Checkbox(
+                                checked = skill in skillTerpilih,
+                                onCheckedChange = { dicentang ->
+                                    if (dicentang) skillTerpilih.add(skill) else skillTerpilih.remove(skill)
+                                },
+                                colors = CheckboxDefaults.colors(
+                                    checkedColor = colorResource(R.color.ungu_judul)
+                                )
+                            )
+                            Text(text = skill, style = MaterialTheme.typography.bodySmall)
+                        }
+                    }
+                }
+
+                Button(
+                    onClick = {
+                        Toast.makeText(context, pesanBerhasil, Toast.LENGTH_SHORT).show()
+                    },
+                    enabled = formLengkap,
+                    shape = RoundedCornerShape(dimensionResource(R.dimen.radius_field)),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = colorResource(R.color.warna_tombol_aktif),
+                        contentColor = colorResource(R.color.warna_teks_tombol),
+                        disabledContainerColor = colorResource(R.color.warna_tombol_nonaktif),
+                        disabledContentColor = colorResource(R.color.warna_teks_tombol)
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(dimensionResource(R.dimen.tinggi_tombol))
+                ) {
+                    Text(
+                        text = stringResource(R.string.tombol_proceed),
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+        }
+
+        if (tampilDatePicker) {
+            val datePickerState = rememberDatePickerState()
+            val formatTanggal = SimpleDateFormat(
+                stringResource(R.string.format_tanggal),
+                Locale.getDefault()
+            ).apply {
+                timeZone = TimeZone.getTimeZone(stringResource(R.string.zona_waktu))
+            }
+
+            DatePickerDialog(
+                onDismissRequest = { tampilDatePicker = false },
+                confirmButton = {
+                    TextButton(onClick = {
+                        datePickerState.selectedDateMillis?.let {
+                            tglLahir = formatTanggal.format(Date(it))
+                        }
+                        tampilDatePicker = false
+                    }) {
+                        Text(stringResource(R.string.tombol_ok))
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { tampilDatePicker = false }) {
+                        Text(stringResource(R.string.tombol_batal))
+                    }
+                }
+            ) {
+                DatePicker(state = datePickerState)
             }
         }
     }
@@ -304,33 +337,7 @@ fun HeaderGambar(modifier: Modifier = Modifier) {
                 )
             }
         }
-        Button(
-            onClick = { },
-            enabled = formLengkap,
-            shape = RoundedCornerShape(dimensionResource(R.dimen.radius_field)),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = colorResource(R.color.warna_tombol_aktif),
-                contentColor = colorResource(R.color.warna_teks_tombol),
-                disabledContainerColor = colorResource(R.color.warna_tombol_nonaktif),
-                disabledContentColor = colorResource(R.color.warna_teks_tombol)
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(dimensionResource(R.dimen.tinggi_tombol))
-        ) {
-            Text(
-                text = stringResource(R.string.tombol_proceed),
-                fontWeight = FontWeight.Bold
-            )
-        }
     }
-    onClick = {
-        Toast.makeText(
-            context,
-            context.getString(R.string.pesan_berhasil, namaDepan),
-            Toast.LENGTH_SHORT
-        ).show()
-    },
 }
 
 @Composable
