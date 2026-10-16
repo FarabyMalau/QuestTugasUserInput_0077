@@ -65,9 +65,17 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 
 @Composable
 fun FormBiodataScreen() {
+    val formLengkap = namaDepan.isNotBlank() &&
+            namaBelakang.isNotBlank() &&
+            email.isNotBlank() &&
+            tglLahir.isNotBlank() &&
+            experience.isNotBlank() &&
+            skillTerpilih.isNotEmpty()
     val skillTerpilih = remember { mutableStateListOf<String>() }
     val daftarSkill = stringArrayResource(R.array.daftar_skill)
     var experience by rememberSaveable { mutableStateOf("") }
@@ -290,6 +298,25 @@ fun HeaderGambar(modifier: Modifier = Modifier) {
                         .background(colorResource(warna))
                 )
             }
+        }
+        Button(
+            onClick = { },
+            enabled = formLengkap,
+            shape = RoundedCornerShape(dimensionResource(R.dimen.radius_field)),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = colorResource(R.color.warna_tombol_aktif),
+                contentColor = colorResource(R.color.warna_teks_tombol),
+                disabledContainerColor = colorResource(R.color.warna_tombol_nonaktif),
+                disabledContentColor = colorResource(R.color.warna_teks_tombol)
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(dimensionResource(R.dimen.tinggi_tombol))
+        ) {
+            Text(
+                text = stringResource(R.string.tombol_proceed),
+                fontWeight = FontWeight.Bold
+            )
         }
     }
 }
