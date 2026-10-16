@@ -29,5 +29,22 @@ fun HeaderGambar(modifier: Modifier = Modifier) {
                     .height(dimensionResource(R.dimen.tinggi_header))
             )
         }
+        Row(
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(dimensionResource(R.dimen.jarak_sedang)),
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.jarak_dot))
+        ) {
+            repeat(jumlahHalaman) { index ->
+                val warna = if (pagerState.currentPage == index)
+                    R.color.warna_dot_aktif else R.color.warna_dot_nonaktif
+                Box(
+                    modifier = Modifier
+                        .size(dimensionResource(R.dimen.ukuran_dot))
+                        .clip(CircleShape)
+                        .background(colorResource(warna))
+                )
+            }
+        }
     }
 }
