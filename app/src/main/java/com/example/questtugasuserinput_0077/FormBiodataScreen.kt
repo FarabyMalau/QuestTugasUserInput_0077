@@ -43,6 +43,31 @@ fun HeaderGambar(modifier: Modifier = Modifier) {
                         .size(dimensionResource(R.dimen.ukuran_dot))
                         .clip(CircleShape)
                         .background(colorResource(warna))
+                    val bentukForm = RoundedCornerShape(
+                        topStart = dimensionResource(R.dimen.radius_form),
+                topEnd = dimensionResource(R.dimen.radius_form)
+                )
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(
+                            top = dimensionResource(R.dimen.jarak_atas_form),
+                            bottom = dimensionResource(R.dimen.jarak_bawah_form)
+                        )
+                        .shadow(dimensionResource(R.dimen.elevasi_form), bentukForm)
+                        .background(colorResource(R.color.putih), bentukForm)
+                        .padding(dimensionResource(R.dimen.padding_form))
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .verticalScroll(rememberScrollState()),
+                        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.jarak_sedang))
+                    ) {
+                        // isi form ditambahkan di commit berikutnya
+                    }
+                }
                 )
             }
         }
