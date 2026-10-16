@@ -37,6 +37,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.ui.text.input.KeyboardType
 
 @Composable
 fun FormBiodataScreen() {
@@ -123,4 +126,23 @@ fun HeaderGambar(modifier: Modifier = Modifier) {
             }
         }
     }
+}
+
+@Composable
+fun FieldBiodata(
+    value: String,
+    onValueChange: (String) -> Unit,
+    labelRes: Int,
+    modifier: Modifier = Modifier,
+    keyboardType: KeyboardType = KeyboardType.Text
+) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text(stringResource(labelRes)) },
+        singleLine = true,
+        shape = RoundedCornerShape(dimensionResource(R.dimen.radius_field)),
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+        modifier = modifier
+    )
 }
