@@ -33,6 +33,10 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 
 @Composable
 fun FormBiodataScreen() {
@@ -65,7 +69,21 @@ fun FormBiodataScreen() {
                     .verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.jarak_sedang))
             ) {
-                // isi form ditambahkan di commit berikutnya
+                Text(
+                    text = stringResource(R.string.judul_form),
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = colorResource(R.color.ungu_judul),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Text(
+                    text = stringResource(R.string.subjudul_form),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = colorResource(R.color.abu_subjudul),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
         }
     }
