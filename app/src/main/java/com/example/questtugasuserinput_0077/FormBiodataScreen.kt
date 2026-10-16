@@ -12,3 +12,22 @@ fun FormBiodataScreen() {
         }
     }
 }
+
+@Composable
+fun HeaderGambar(modifier: Modifier = Modifier) {
+    val jumlahHalaman = integerResource(R.integer.jumlah_halaman_header)
+    val pagerState = rememberPagerState { jumlahHalaman }
+
+    Box(modifier = modifier) {
+        HorizontalPager(state = pagerState) {
+            Image(
+                painter = painterResource(R.drawable.bg_header),
+                contentDescription = stringResource(R.string.deskripsi_gambar_header),
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(dimensionResource(R.dimen.tinggi_header))
+            )
+        }
+    }
+}
