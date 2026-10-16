@@ -8,7 +8,7 @@ fun FormBiodataScreen() {
         Scaffold(
             containerColor = colorResource(R.color.putih)
         ) { innerPadding ->
-            Box(modifier = Modifier.fillMaxSize().padding(innerPadding))
+            HeaderGambar(modifier = Modifier.padding(innerPadding))
         }
     }
 }
