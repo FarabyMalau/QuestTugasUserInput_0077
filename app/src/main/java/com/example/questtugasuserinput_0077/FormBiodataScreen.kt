@@ -40,9 +40,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 
 @Composable
 fun FormBiodataScreen() {
+    var namaDepan by rememberSaveable { mutableStateOf("") }
+    var namaBelakang by rememberSaveable { mutableStateOf("") }
     val bentukForm = RoundedCornerShape(
         topStart = dimensionResource(R.dimen.radius_form),
         topEnd = dimensionResource(R.dimen.radius_form)
@@ -87,6 +93,23 @@ fun FormBiodataScreen() {
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
                 )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.jarak_sedang))
+                ) {
+                    FieldBiodata(
+                        value = namaDepan,
+                        onValueChange = { namaDepan = it },
+                        labelRes = R.string.hint_nama_depan,
+                        modifier = Modifier.weight(1f)
+                    )
+                    FieldBiodata(
+                        value = namaBelakang,
+                        onValueChange = { namaBelakang = it },
+                        labelRes = R.string.hint_nama_belakang,
+                        modifier = Modifier.weight(1f)
+                    )
+                }
             }
         }
     }
