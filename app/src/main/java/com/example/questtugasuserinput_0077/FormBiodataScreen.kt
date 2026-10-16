@@ -57,9 +57,17 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.ui.res.stringArrayResource
 
 @Composable
 fun FormBiodataScreen() {
+    var experience by rememberSaveable { mutableStateOf("") }
+    var menuTerbuka by remember { mutableStateOf(false) }
+    val daftarExperience = stringArrayResource(R.array.daftar_experience)
     var namaDepan by rememberSaveable { mutableStateOf("") }
     var namaBelakang by rememberSaveable { mutableStateOf("") }
     var email by rememberSaveable { mutableStateOf("") }
@@ -183,7 +191,38 @@ fun FormBiodataScreen() {
                             shape = RoundedCornerShape(dimensionResource(R.dimen.radius_field)),
                             modifier = Modifier.weight(1f)
                         )
-                        // dropdown Experience ditambahkan di Commit 20
+                        ExposedDropdownMenuBox(
+                            expanded = menuTerbuka,
+                            onExpandedChange = { menuTerbuka = it },
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            OutlinedTextField(
+                                value = experience,
+                                onValueChange = {},
+                                readOnly = true,
+                                singleLine = true,
+                                label = { Text(stringResource(R.string.hint_experience)) },
+                                trailingIcon = {
+                                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = menuTerbuka)
+                                },
+                                shape = RoundedCornerShape(dimensionResource(R.dimen.radius_field)),
+                                modifier = Modifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
+                            )
+                            ExposedDropdownMenu(
+                                expanded = menuTerbuka,
+                                onDismissRequest = { menuTerbuka = false }
+                            ) {
+                                daftarExperience.forEach { pilihan ->
+                                    DropdownMenuItem(
+                                        text = { Text(pilihan) },
+                                        onClick = {
+                                            experience = pilihan
+                                            menuTerbuka = false
+                                        }
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
             }
