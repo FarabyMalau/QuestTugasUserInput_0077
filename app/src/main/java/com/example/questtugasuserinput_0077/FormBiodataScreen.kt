@@ -221,7 +221,11 @@ fun FormBiodataScreen() {
                                         }
                                     )
                                 }
-                            }
+                                Text(
+                                    text = stringResource(R.string.label_skill),
+                                    style = MaterialTheme.typography.titleSmall,
+                                    fontWeight = FontWeight.Bold
+                                )                            }
                         }
                     }
                 }
