@@ -236,7 +236,9 @@ fun FormBiodataScreen() {
                             Checkbox(
                                 checked = skill in skillTerpilih,
                                 onCheckedChange = { dicentang ->
-                                    if (dicentang) skillTerpilih.add(skill) else skillTerpilih.remove(skill)
+                                    if (dicentang) skillTerpilih.add(skill) else skillTerpilih.remove(
+                                        skill
+                                    )
                                 },
                                 colors = CheckboxDefaults.colors(
                                     checkedColor = colorResource(R.color.ungu_judul)
