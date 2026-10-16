@@ -62,9 +62,14 @@ import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.runtime.mutableStateListOf
 
 @Composable
 fun FormBiodataScreen() {
+    val skillTerpilih = remember { mutableStateListOf<String>() }
+    val daftarSkill = stringArrayResource(R.array.daftar_skill)
     var experience by rememberSaveable { mutableStateOf("") }
     var menuTerbuka by remember { mutableStateOf(false) }
     val daftarExperience = stringArrayResource(R.array.daftar_experience)
@@ -226,6 +231,25 @@ fun FormBiodataScreen() {
                                     style = MaterialTheme.typography.titleSmall,
                                     fontWeight = FontWeight.Bold
                                 )                            }
+                        }
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        daftarSkill.forEach { skill ->
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Checkbox(
+                                    checked = skill in skillTerpilih,
+                                    onCheckedChange = { dicentang ->
+                                        if (dicentang) skillTerpilih.add(skill) else skillTerpilih.remove(skill)
+                                    },
+                                    colors = CheckboxDefaults.colors(
+                                        checkedColor = colorResource(R.color.ungu_judul)
+                                    )
+                                )
+                                Text(text = skill, style = MaterialTheme.typography.bodySmall)
+                            }
                         }
                     }
                 }
