@@ -15,4 +15,5 @@
     <color name="warna_tombol_aktif">#FF6A3AB8</color>
     <color name="warna_tombol_nonaktif">#FFE0E0E0</color>
     <color name="warna_teks_tombol">#FFFFFFFF</color>
+    <color name="ikon_kalender">#FF1C1B1F</color>
 </resources>
