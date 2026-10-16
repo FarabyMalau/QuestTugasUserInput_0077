@@ -44,12 +44,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.runtime.remember
 
 @Composable
 fun FormBiodataScreen() {
     var namaDepan by rememberSaveable { mutableStateOf("") }
     var namaBelakang by rememberSaveable { mutableStateOf("") }
     var email by rememberSaveable { mutableStateOf("") }
+    var tglLahir by rememberSaveable { mutableStateOf("") }
+    var tampilDatePicker by remember { mutableStateOf(false) }
     val bentukForm = RoundedCornerShape(
         topStart = dimensionResource(R.dimen.radius_form),
         topEnd = dimensionResource(R.dimen.radius_form)
@@ -117,6 +124,29 @@ fun FormBiodataScreen() {
                         keyboardType = KeyboardType.Email,
                         modifier = Modifier.fillMaxWidth()
                     )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.jarak_sedang))
+                    ) {
+                        OutlinedTextField(
+                            value = tglLahir,
+                            onValueChange = {},
+                            readOnly = true,
+                            singleLine = true,
+                            label = { Text(stringResource(R.string.hint_tgl_lahir)) },
+                            trailingIcon = {
+                                IconButton(onClick = { tampilDatePicker = true }) {
+                                    Icon(
+                                        imageVector = Icons.Default.DateRange,
+                                        contentDescription = stringResource(R.string.deskripsi_ikon_kalender)
+                                    )
+                                }
+                            },
+                            shape = RoundedCornerShape(dimensionResource(R.dimen.radius_field)),
+                            modifier = Modifier.weight(1f)
+                        )
+                        // dropdown Experience ditambahkan di Commit 20
+                    }
                 }
             }
         }
